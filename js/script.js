@@ -145,7 +145,7 @@ paymentMethod.addEventListener('change', e => {
   faeOut(paypal);
   faeOut(bitcoin);
 
-  if (e.target.value === 'credit card') fadeIn(creditCard);
+  if (e.target.value === 'credit-card') fadeIn(creditCard);
   if (e.target.value === 'paypal') fadeIn(paypal);
   if (e.target.value === 'bitcoin') fadeIn(bitcoin);
 })

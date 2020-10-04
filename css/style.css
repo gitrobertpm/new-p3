@@ -56,7 +56,6 @@ a {
   width: 100%;
   max-width: 800px;
   margin: auto;
-	background: rgb(255, 255, 255);
 }
 
 /* ================================= 
@@ -69,7 +68,6 @@ form {
   justify-content: space-between;
   width: 100%;
   padding-top: 10px;
-	background: rgba(218, 174, 81, 0.1);
 	border-radius: 3px;
 }
 
@@ -119,16 +117,12 @@ input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .95em;
-	background: rgb(255, 255, 255);
-	border: 1px solid rgba(36, 28, 21, 0.3);
+	background: transparent;
+	background: rgba(218, 174, 81, 0.1);
+	background: rgb(255, 251, 243);
+	border: 1px solid rgba(36, 28, 21, 0.2);
 	border-radius: 2px;
 	outline: none;
-}
-
-input.error,
-select.error {
-	background: rgb(242, 112, 156, 0.1);
-	border: 1px solid rgb(242, 112, 156) !important;
 }
 
 input[type="checkbox"],
@@ -151,12 +145,24 @@ select {
 	font-weight: 500;
 	padding: .95em;
 	padding-right: calc(4% + 0.95em);
-	background: url(../img/caret.png) calc(100% - 7px) 50% no-repeat #fff;
+	background: url(../img/caret.png) calc(100% - 7px) 50% no-repeat rgb(255, 251, 243);
 	background-size: 12px auto;
-	border: 1px solid rgba(36, 28, 21, 0.3);
+	border: 1px solid rgba(36, 28, 21, 0.2);
 	border-radius: 2px;
 	outline: none;
 	cursor: pointer;
+}
+
+input.error,
+select.error {
+	background: rgb(242, 112, 156, 0.1);
+	border: 1px solid rgb(242, 112, 156) !important;
+}
+
+input:focus,
+select:focus {
+  background: rgba(255, 255, 255, 1);
+  border-color:  rgb(9, 73, 250);
 }
 
 button {
@@ -212,10 +218,11 @@ button:hover {
 
 .activities label {
   position: relative;
-  background: rgb(255, 255, 255);
+  background: rgba(218, 174, 81, 0.1);
+  background: rgb(255, 251, 243);
   padding: 15px 10px;
   border-radius: 3px;
-  border: 1px solid rgba(36, 28, 21, 0.3);
+  border: 1px solid rgba(36, 28, 21, 0.2);
   transition: all 0.3s ease-out;
 }
 
@@ -291,9 +298,9 @@ button:hover {
 .bitcoin {
   margin: 10px auto 0 auto;
   padding: 0 15px;
-  background: rgb(255, 255, 255);
+  background: rgb(255, 251, 243);
   border-radius: 3px;
-  border: 1px solid rgba(36, 28, 21, 0.3);
+  border: 1px solid rgba(36, 28, 21, 0.2);
 }
 
 .paypal h3,
@@ -331,17 +338,22 @@ button:hover {
 
   .basic-info-and-shirt-box {
     position: relative;
+    padding: 15px;
+  }
+
+  .basic-info-and-shirt-box fieldset {
+    margin: 10px 0;
   }
 
   .other-job-role {
     position: absolute;
     right: 10px;
-    bottom: 10px;
-    max-width: 325px;
+    bottom: 24px;
+    max-width: 50%;
   }
 
   .basic-info{
-    max-width: 420px;
+    max-width: 350px;
     padding: 0;
   }
 
@@ -358,7 +370,6 @@ button:hover {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-    border: 1px solid transparent;
     transition: all 0.3s;
   }
 
