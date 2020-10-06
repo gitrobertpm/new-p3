@@ -18,20 +18,23 @@
 	<div class="container">
 
     <form action="index.html" method="post" novalidate>
+      <p id="form-hint" class="form-hint hint"><span class="asterisk">*</span> - required field</p>
 
       <div class="basic-info-and-shirt-box">       
         <fieldset class="basic-info">         
           <legend>Basic Info</legend>
           
-          <label for="name">Name:</label>
+          <label for="name">Name: <span class="asterisk">*</span></label>
           <input type="text" id="name" name="user-name">
+          <p id="name-hint" class="name-hint hint">Name field cannot be blank</p>
           
-          <label for="mail">Email:</label>
-          <input type="email" id="mail" name="user-email">
+          <label for="email">Email: <span class="asterisk">*</span></label>
+          <input type="email" id="email" name="user-email">
+          <p id="email-hint" class="email-hint hint">Email address must be formatted correctly</p>
           
           <label for="title">Job Role</label>
           <select id="title" name="user-title">
-            <option>Select Job Role</option>
+            <option hidden>Select Job Role</option>
             <option value="full-stack js developer">Full Stack JavaScript Developer</option>
             <option value="front-end developer">Front End Developer</option>
             <option value="back-end developer">Back End Developer</option>
@@ -60,7 +63,7 @@
             <div id="shirt-designs" class="shirt-designs">
               <label for="design">Design:</label>
               <select id="design" name="user-design">
-                <option>Select Theme</option>
+                <option hidden>Select Theme</option>
                 <option value="js puns">Theme - JS Puns</option>
                 <option value="heart js">Theme - I &#9829; JS</option>
               </select>
@@ -82,7 +85,7 @@
       </div>               
 
       <fieldset id="activities" class="activities">
-        <legend>Register for Activities</legend>
+        <legend>Register for Activities <span class="asterisk">*</span></legend>
           <div id="activity-labels" class="activity-labels">
             <label>
               <input type="checkbox" name="all" data-cost="200">
@@ -132,7 +135,8 @@
               <p>$100</p>
               <img class="activity-img express-img" src="img/express.svg" alt=""> 
             </label>
-          </div>            	
+          </div>
+          <p id="activity-hint" class="activity-hint hint">Selecting at least one activity is required</p>          	
       </fieldset>
 
       <fieldset class="payment-methods">
@@ -141,7 +145,7 @@
         <div class="payment-method-box">
           <label for="payment">I'm going to pay with:</label>
           <select id="payment" name="user-payment">
-            <option value="select method">Select Payment Method</option>
+            <option value="select method" hidden>Select Payment Method</option>
             <option value="credit-card">Credit Card</option>
             <option value="paypal">PayPal</option>
             <option value="bitcoin">Bitcoin</option>
@@ -150,23 +154,6 @@
         
 
         <div id="credit-card" class="credit-card">
-
-          <div class="credit-card-box">
-            <div class="num-box">
-              <label for="cc-num">Card Number:</label>
-              <input id="cc-num" name="user-cc-num" type="text">
-            </div>
-
-            <div class="zip-box">
-              <label for="zip">Zip Code:</label>
-              <input id="zip" name="user-zip" type="text"> 
-            </div>
-
-            <div class="cvv-box">
-              <label for="cvv">CVV:</label>
-              <input id="cvv" name="user-cvv" type="text"> 
-            </div>
-          </div>
 
           <div class="expiration-box">
             <div class="month-box">
@@ -186,6 +173,7 @@
                 <option value="12">12 - December</option>          		          
               </select>
             </div>
+
             <div class="year-box">
               <label for="exp-year">Expiration Year:</label>
               <select id="exp-year" name="user-exp-year">
@@ -196,7 +184,27 @@
                 <option value="2024">2024</option>    		          
               </select> 
             </div>
-          </div>                 	         
+          </div> 
+
+          <div class="credit-card-box">
+            <div class="num-box">
+              <label for="cc-num">Card Number: <span class="asterisk">*</span></label>
+              <input id="cc-num" name="user-cc-num" type="text">
+              <p id="cc-hint" class="cc-hint hint">Credit card number must be between 13 - 16 digits</p>
+            </div>
+
+            <div class="zip-box">
+              <label for="zip">Zip Code: <span class="asterisk">*</span></label>
+              <input id="zip" name="user-zip" type="text">
+              <p id="zip-hint" class="zip-hint hint">Zip Code must be 5 digits</p>
+            </div>
+
+            <div class="cvv-box">
+              <label for="cvv">CVV: <span class="asterisk">*</span></label>
+              <input id="cvv" name="user-cvv" type="text">
+              <p id="cvv-hint" class="cvv-hint hint">CVV must be 3 digits</p>
+            </div>
+          </div>           	         
         </div>
 
         <div id="paypal" class="paypal">
