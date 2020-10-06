@@ -519,6 +519,13 @@ button:hover {
     width: 47%;
   }
 
+  /* Mozilla specific style for expiration date container to accomplish cross browser styles */
+  @-moz-document url-prefix() {
+    .expiration-box {
+      top: 37px;
+    }
+  }
+
   .expiration-box label {
     margin-top: 0;
   }
