@@ -93,6 +93,7 @@ legend {
   font-size: 1.5em;
   font-weight: bold;
   color: rgb(0, 0, 0);
+  transition: all 0.3s ease-out;
 }
 
 input[type="text"],
@@ -107,6 +108,7 @@ label {
   color: rgb(0, 0, 0);
   margin-top: 27px;
   margin-bottom: 0;
+  transition: all 0.3s ease-out;
 }
 
 input,
@@ -136,7 +138,7 @@ input,
 select, 
 option {
   font-family: 'roboto', sans-serif;
-  transition: all 0.3s;
+  transition: all 0.3s ease-out;
 }
 
 select {
@@ -184,7 +186,7 @@ button {
   border: none;
   border-right: 1px solid rgba(36, 28, 21, 0.2);
   border-bottom: 1px solid rgba(36, 28, 21, 0.3);
-	transition: all 0.5s;
+	transition: all 0.3s ease-out;
 }
 
 button:hover {
@@ -194,6 +196,7 @@ button:hover {
 .hint {
   color: rgba(0, 0, 0, 0.8);
   margin: 0;
+  transition: all 0.3s ease-out;
 }
 
 .form-hint {
@@ -207,13 +210,13 @@ button:hover {
 .valid::after {
   content: ' ';
   position: absolute;
-  
   right: 0px;
   bottom: 0px;
   width: 30px;
   height: 30px;
   background-image: url('../img/valid.svg');
   background-size: 30px;
+  transition: all 0.3s ease-out;
 }
 
 .not-valid::after {
@@ -225,6 +228,7 @@ button:hover {
   height: 30px;
   background-image: url('../img/not-valid.svg');
   background-size: 30px;
+  transition: all 0.3s ease-out;
 }
 
 /* ================================= 
@@ -265,6 +269,7 @@ button:hover {
   font-family: 'roboto', sans-serif;
   border: 1px solid transparent;
   border-radius: 3px;
+  transition: all 0.3s ease-out;
 }
 
 .activities label {
@@ -428,7 +433,7 @@ button:hover {
   .other-job-role {
     position: absolute;
     right: 10px;
-    bottom: 24px;
+    bottom: 25px;
     max-width: 50%;
   }
 
