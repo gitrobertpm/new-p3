@@ -70,7 +70,7 @@ designMenu.addEventListener('change', e => {
  */
 const activitySection = document.querySelector('#activities');
 const activities = document.querySelectorAll('.activities input');
-const activityHint = document.querySelector('#activity-hint');
+const activityCost = document.querySelector('#activity-cost');
 
 let total = 0;
 
@@ -94,11 +94,11 @@ activitySection.addEventListener('change', e => {
   const clicked = e.target;
 
   // Cost of clicked input
-  const cost = parseInt(clicked.getAttribute('data-cost'));
+  const currentCost = parseInt(clicked.getAttribute('data-cost'));
 
   // Update total cost
-  clicked.checked ? total += cost : total -= cost;
-  activityHint.innerHTML = `Total: $${total}`;
+  clicked.checked ? total += currentCost : total -= currentCost;
+  activityCost.innerHTML = `Total: $${total}`;
 
   // Dat and time of clicked activity
   const dayAndTime = clicked.getAttribute('data-day-and-time');
@@ -169,7 +169,8 @@ const nameHint = document.querySelector('#name-hint');
 const email = document.querySelector('#email');
 const emailLabel = document.querySelector('label[for="email"]');
 const emailHint = document.querySelector('#email-hint');
-const activityLabels = document.querySelector('#activity-labels')
+const activityLabels = document.querySelector('#activity-labels');
+const activityHint = document.querySelector('#activity-hint');
 const activityLegend = document.querySelector('#activities legend')
 const ccNum = document.querySelector('#cc-num');
 const ccLabel = document.querySelector('label[for="cc-num"]');

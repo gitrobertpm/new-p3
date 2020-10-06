@@ -277,6 +277,7 @@ button:hover {
   background: rgba(218, 174, 81, 0.1);
   background: rgb(255, 253, 249);
   padding: 15px 10px;
+  margin-top: 10px;
   border-radius: 3px;
   border: 1px solid rgba(36, 28, 21, 0.2);
   transition: all 0.3s ease-out;
@@ -344,6 +345,11 @@ button:hover {
 
 .express-img {
   top: 20px;
+}
+
+.activity-cost {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /* ================================= 
@@ -481,6 +487,11 @@ button:hover {
 
   .activities label:nth-last-child(-n+2) {
     margin-bottom: 0;
+  }
+
+  .activity-cost {
+    float: right;
+    margin-top: -25px;
   }
 
   /* ================================= 
