@@ -129,6 +129,11 @@ input {
 	outline: none;
 }
 
+input:-webkit-autofill {
+  border: 1px solid rgba(36, 28, 21, 0.2);
+  -webkit-box-shadow: 0 0 0px 1000px rgb(255, 253, 249) inset;
+}
+
 input[type="checkbox"],
 input[type="radio"] {
 	display: inline-block;
@@ -157,7 +162,8 @@ select {
 	border: 1px solid rgba(36, 28, 21, 0.2);
 	border-radius: 2px;
 	outline: none;
-	cursor: pointer;
+  cursor: pointer;
+  transition: none;
 }
 
 input.error,
@@ -194,12 +200,13 @@ button:hover {
 }
 
 .hint {
-  color: rgba(0, 0, 0, 0.8);
+  color: red;
   margin: 0;
   transition: all 0.3s ease-out;
 }
 
 .form-hint {
+  color: rgb(0, 0, 0);
   margin-left: 17px;
 }
 
@@ -212,10 +219,10 @@ button:hover {
   position: absolute;
   right: 0px;
   bottom: 0px;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   background-image: url('../img/valid.svg');
-  background-size: 30px;
+  background-size: 25px;
   transition: all 0.3s ease-out;
 }
 
@@ -224,10 +231,10 @@ button:hover {
   position: absolute;
   right: 0px;
   bottom: 0px;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   background-image: url('../img/not-valid.svg');
-  background-size: 30px;
+  background-size: 25px;
   transition: all 0.3s ease-out;
 }
 
@@ -458,6 +465,7 @@ button:hover {
   ==================================== */
 
   .activities {
+    position: relative;
     padding: 10px;
   }
 
@@ -490,8 +498,10 @@ button:hover {
   }
 
   .activity-cost {
-    float: right;
-    margin-top: -25px;
+    position: absolute;
+    font-weight: bolder;;
+    right: 15px;
+    top: 515px;
   }
 
   /* ================================= 

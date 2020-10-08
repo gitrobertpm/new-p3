@@ -74,19 +74,6 @@ const activityCost = document.querySelector('#activity-cost');
 
 let total = 0;
 
-
-// Accessibility - add tab index indicator to activity labels
-[...activities].forEach((activity) => {
-  activity.addEventListener('focus', e => {
-    activity.parentElement.classList.add('focus');
-  })
-
-  activity.addEventListener('blur', e => {
-    const active = document.querySelector('.focus');
-    if (active) active.classList.remove('focus');
-  })
-});
-
 // Update total cost and disable/enable conflicting options
 activitySection.addEventListener('change', e => {
 
@@ -160,6 +147,48 @@ paymentMethod.addEventListener('change', e => {
 })
 
 
+
+/**
+ * Accessibility
+ */
+const hints = document.querySelectorAll('.hint');
+
+// Hide all hints initially except first
+[...hints].forEach((hint, i) => {
+  if (i > 0) hint.style.display = 'none';
+});
+
+// Add tab index focus indicator to activity labels
+[...activities].forEach((activity) => {
+  activity.addEventListener('focus', e => {
+    activity.parentElement.classList.add('focus');
+  })
+
+  activity.addEventListener('blur', e => {
+    const active = document.querySelector('.focus');
+    if (active) active.classList.remove('focus');
+  })
+});
+
+// Accessibility related form input error validation 
+const validationPass = (el, elTitle, elHint, borderColor = 'transparent') => {
+  el.style.borderColor = borderColor;
+  elTitle.style.color = "black";
+  elTitle.classList.add('valid');
+  elTitle.classList.remove('not-valid');
+  elHint.style.display= 'none';
+}
+
+const validationFail = (el, elTitle, elHint) => {
+  el.style.borderColor = 'red';
+  elTitle.style.color = "red";
+  elTitle.classList.remove('valid');
+  elTitle.classList.add('not-valid');
+  elHint.style.display = 'block';
+}
+
+
+
 /**
  * Validation
  */
@@ -186,21 +215,11 @@ const cvvHint = document.querySelector('#cvv-hint');
 // Name validation and real time test
 const validName = () => {
   const valid = name.value.length > 0;
-  if (valid) {
-    name.style.borderColor = 'rgba(36, 28, 21, 0.3)';
-    nameLabel.style.color = "rgb(0, 0, 0)";
-    nameLabel.classList.add('valid');
-    nameLabel.classList.remove('not-valid');
-    nameHint.style.color = 'rgba(0, 0, 0, 0.8)';
-    nameHint.textContent = 'Valid name';
-  } else {
-    name.style.borderColor = 'red';
-    nameLabel.style.color = "red";
-    nameLabel.classList.remove('valid');
-    nameLabel.classList.add('not-valid');
-    nameHint.style.color = 'red';
-    nameHint.textContent = 'Name field cannot be blank';
-  }
+
+  (valid) ? 
+  validationPass(name, nameLabel, nameHint, 'rgba(36, 28, 21, 0.3)') : 
+  validationFail(name, nameLabel, nameHint);
+
   return valid;
 }
 
@@ -218,22 +237,10 @@ const validMail = () => {
                 val.indexOf('@') > 0 &&
                 val.indexOf('@') + 1 < val.lastIndexOf('.');
 
-  if (valid) {
-    email.style.borderColor = 'rgba(36, 28, 21, 0.3)';
-    emailLabel.style.color = "rgb(0, 0, 0)";
-    emailLabel.classList.add('valid');
-    emailLabel.classList.remove('not-valid');
-    emailHint.style.color = 'rgba(0, 0, 0, 0.8)';
-    emailHint.textContent = 'Valid email';
-  } else {
-    email.style.borderColor = 'red';
-    emailLabel.style.color = "red";
-    emailLabel.classList.remove('valid');
-    emailLabel.classList.add('not-valid');
-    emailHint.style.color = 'red';
-    emailHint.textContent = 'Email address must be formatted correctly';
-  }
-  // valid ? email.style.borderColor = 'rgba(36, 28, 21, 0.3)' : email.style.borderColor = 'red';
+  (valid) ? 
+  validationPass(email, emailLabel, emailHint, 'rgba(36, 28, 21, 0.3)') : 
+  validationFail(email, emailLabel, emailHint);
+
   return valid;
 }
 
@@ -245,22 +252,11 @@ email.addEventListener('keyup', e => {
 // Activity validation and real time test
 const validActivity = () => {
   const valid = total > 0;
-  if (valid) {
-    activityLabels.style.borderColor = 'transparent';
-    activityLegend.style.color = "rgb(0, 0, 0)";
-    activityLegend.classList.add('valid');
-    activityLegend.classList.remove('not-valid');
-    activityHint.style.color = 'rgba(0, 0, 0, 0.8)';
-    activityHint.textContent = 'Activity selected';
-  } else {
-    activityLabels.style.borderColor = 'red';
-    activityLegend.style.color = "red";
-    activityLegend.classList.remove('valid');
-    activityLegend.classList.add('not-valid');
-    activityHint.style.color = 'red';
-    activityHint.textContent = 'Selecting at least one activity is required';
-  }
-  // valid ? activityLabels.style.borderColor = 'transparent' : activityLabels.style.borderColor = 'red';
+
+  (valid) ? 
+  validationPass(activityLabels, activityLegend, activityHint) : 
+  validationFail(activityLabels, activityLegend, activityHint);
+  
   return valid;
 }
 
@@ -275,22 +271,11 @@ const validCC = () => {
   const valid = val.length > 12 &&
                 val.length < 17 &&
                 !isNaN(val); console.log(val.length);
-  // valid ? ccNum.style.borderColor = 'rgba(36, 28, 21, 0.3)' : ccNum.style.borderColor = 'red';
-  if (valid) {
-    ccNum.style.borderColor = 'rgba(36, 28, 21, 0.3)';
-    ccLabel.style.color = "rgb(0, 0, 0)";
-    ccLabel.classList.add('valid');
-    ccLabel.classList.remove('not-valid');
-    ccHint.style.color = 'rgba(0, 0, 0, 0.8)';
-    ccHint.textContent = 'Valid credit card number';
-  } else {
-    ccNum.style.borderColor = 'red';
-    ccLabel.style.color = "red";
-    ccLabel.classList.remove('valid');
-    ccLabel.classList.add('not-valid');
-    ccHint.style.color = 'red';
-    ccHint.textContent = 'Credit card number must be between 13 - 16 digits';
-  }
+
+  (valid) ? 
+  validationPass(ccNum, ccLabel, ccHint, 'rgba(36, 28, 21, 0.3)') : 
+  validationFail(ccNum, ccLabel, ccHint);
+
   return valid;
 }
 
@@ -304,22 +289,11 @@ const validZip = () => {
   const val = zip.value;
   const valid = val.length === 5 &&
                 !isNaN(val);
-  // valid ? zip.style.borderColor = 'rgba(36, 28, 21, 0.3)' : zip.style.borderColor = 'red';
-  if (valid) {
-    zip.style.borderColor = 'rgba(36, 28, 21, 0.3)';
-    zipLabel.style.color = "rgb(0, 0, 0)";
-    zipLabel.classList.add('valid');
-    zipLabel.classList.remove('not-valid');
-    zipHint.style.color = 'rgba(0, 0, 0, 0.8)';
-    zipHint.textContent = 'Valid Zip';
-  } else {
-    zip.style.borderColor = 'red';
-    zipLabel.style.color = "red";
-    zipLabel.classList.remove('valid');
-    zipLabel.classList.add('not-valid');
-    zipHint.style.color = 'red';
-    zipHint.textContent = 'Zip Code must be 5 digits';
-  }
+
+  (valid) ? 
+  validationPass(zip, zipLabel, zipHint, 'rgba(36, 28, 21, 0.3)') : 
+  validationFail(zip, zipLabel, zipHint);
+
   return valid;
 }
 
@@ -333,23 +307,11 @@ function validCVV() {
   const val = cvv.value;
   const valid = val.length === 3 &&
                 !isNaN(val);
-  
-  // valid ? cvv.style.borderColor = 'rgba(36, 28, 21, 0.3)' : cvv.style.borderColor = 'red';
-  if (valid) {
-    cvv.style.borderColor = 'rgba(36, 28, 21, 0.3)';
-    cvvLabel.style.color = "rgb(0, 0, 0)";
-    cvvLabel.classList.add('valid');
-    cvvLabel.classList.remove('not-valid');
-    cvvHint.style.color = 'rgba(0, 0, 0, 0.8)';
-    cvvHint.textContent = 'Valid CVV';
-  } else {
-    cvv.style.borderColor = 'red';
-    cvvLabel.style.color = "red";
-    cvvLabel.classList.remove('valid');
-    cvvLabel.classList.add('not-valid');
-    cvvHint.style.color = 'red';
-    cvvHint.textContent = 'CVV must be 3 digits';
-  }
+
+  (valid) ? 
+  validationPass(cvv, cvvLabel, cvvHint, 'rgba(36, 28, 21, 0.3)') : 
+  validationFail(cvv, cvvLabel, cvvHint);
+
   return valid;
 }
 
