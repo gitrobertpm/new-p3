@@ -43,17 +43,19 @@ const colorMenu = document.querySelector('#color');
 // Create and display temporary placeholder option for color menu
 const placeholderOption = `<option selected hidden>Select a design theme above</option>`;
 colorMenu.insertAdjacentHTML('afterbegin', placeholderOption);
+colorMenu.disabled = true;
 
 
 // Helper function for hiding all color options
 const hideColors = () => [...colorMenu.children].forEach(option => option.hidden = true);
-hideColors();
+// hideColors();
 
 // Helper function for deselecting all color options
 const deSelectColors = () => [...colorMenu.children].forEach(option => option.removeAttribute('selected'));
 
 // Display/hide color options as needed
 designMenu.addEventListener('change', e => {
+  colorMenu.disabled = false;
   hideColors();
   deSelectColors();
   const thisVal = e.target.value;
@@ -99,8 +101,8 @@ activitySection.addEventListener('change', e => {
       activities[i].disabled = false;
 
       clicked.checked ? 
-      activities[i].parentElement.style.background = 'rgba(197, 163, 175, 0.1)' : 
-      activities[i].parentElement.style.background = 'rgb(255, 253, 249)';
+      activities[i].parentElement.classList.add('disabled') : 
+      activities[i].parentElement.classList.remove('disabled');
     }
   }
 });
