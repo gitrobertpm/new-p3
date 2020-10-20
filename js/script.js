@@ -48,7 +48,6 @@ colorMenu.disabled = true;
 
 // Helper function for hiding all color options
 const hideColors = () => [...colorMenu.children].forEach(option => option.hidden = true);
-// hideColors();
 
 // Helper function for deselecting all color options
 const deSelectColors = () => [...colorMenu.children].forEach(option => option.removeAttribute('selected'));
