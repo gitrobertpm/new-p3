@@ -83,7 +83,7 @@ button {
 }
 
 legend {
-  position: relative;
+  /* position: relative; */
   font-size: 1.5em;
   font-weight: bold;
   color: rgb(0, 0, 0);
@@ -97,7 +97,7 @@ legend {
 }
 
 label {
-  position: relative;
+  /* position: relative; */
   display: block;
   color: rgb(0, 0, 0);
   margin-top: 27px;
@@ -213,6 +213,7 @@ button:hover {
 }
 
 .hint {
+  display: none;
   color: red;
   margin: 0;
   transition: all 0.3s ease-out;
@@ -220,6 +221,7 @@ button:hover {
 
 .form-hint {
   color: rgb(0, 0, 0);
+  margin-bottom: 0;
   margin-left: 17px;
 }
 
@@ -227,11 +229,28 @@ button:hover {
   vertical-align: sub;
 }
 
+.valid {
+  position: relative;
+}
+
+.not-valid {
+  position: relative;
+  color: red;
+}
+
+.not-valid .error-border {
+  border: 1px solid red;
+}
+
+.not-valid legend {
+  color: red;
+}
+
 .valid::after {
   content: ' ';
   position: absolute;
+  top: -5px;
   right: 0px;
-  bottom: 0px;
   width: 25px;
   height: 25px;
   background-image: url('../img/valid.svg');
@@ -242,8 +261,8 @@ button:hover {
 .not-valid::after {
   content: ' ';
   position: absolute;
+  top: -5px;
   right: 0px;
-  bottom: 0px;
   width: 25px;
   height: 25px;
   background-image: url('../img/not-valid.svg');
@@ -251,6 +270,10 @@ button:hover {
   transition: all 0.3s ease-out;
 }
 
+.activities.valid::after,
+.activities.not-valid::after {
+  top: 5px;
+}
 /* ================================= 
   Basic info and t shirt styles
 ==================================== */
@@ -292,11 +315,24 @@ button:hover {
   Activity section styles
 ==================================== */
 
-.activity-labels {
+.activities {
+  position: relative;
+  max-width: calc(100% - 30px);
+  padding-left: 0;
+  padding-right: 0;
+  margin: 35px 15px 10px;
+}
+
+.activities-box {
   font-family: 'roboto', sans-serif;
-  border: 1px solid transparent;
+  max-width: 100%;
   border-radius: 3px;
+  border: 1px solid transparent;
   transition: all 0.3s ease-out;
+}
+
+.activities legend {
+  margin-bottom: 15px;
 }
 
 .activities label {
@@ -306,12 +342,14 @@ button:hover {
   background: rgb(255, 253, 249);
   padding: 15px 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 3px;
   border: 1px solid rgba(36, 28, 21, 0.2);
   transition: all 0.3s ease-out;
 }
 
 .activities label:nth-of-type(1) {
+  height: 107px;
   margin-top: 0;
 }
 
@@ -323,33 +361,30 @@ button:hover {
   margin: 7px auto 7px 7px;
 }
 
-.activities label span {
+.activities label span:nth-of-type(1) {
   color: rgba(0, 0, 0, 0.75);
   font-weight: bolder;
   padding-left: 7px;
 }
 
-.activities label p {
+.activities label span:nth-of-type(2),
+.activities label span:nth-of-type(3) {
   font-size: 0.9rem;
   margin: 7px auto;
   padding-left: 30px;
 }
 
-.activities label p:nth-of-type(1) {
-  margin-top: 20px;
+.activities label span:nth-of-type(2) {
+  display: block;
+  margin-top: 30px;
 }
 
-.activities label:nth-of-type(1) p,
-.activities label p:nth-of-type(2) {
+.activity-cost {
   position: absolute;
   right: 20px;
   bottom: 10px;
   color: rgba(0, 0, 0, 0.75);
   font-weight: bolder;
-}
-
-.activities label:nth-of-type(1) {
-  height: 107px;
 }
 
 .activity-img {
@@ -374,13 +409,15 @@ button:hover {
   top: 20px;
 }
 
-.activity-cost {
+.activities-cost {
+  color: black;
   font-size: 1.5rem;
-  margin-top: 15px;
+  margin-top: 35px;
+  margin-right: -10px;
   margin-bottom: 5px;
 }
 
-.activity-hint {
+.activities-hint {
   margin-top: 10px;
 }
 
@@ -390,6 +427,10 @@ button:hover {
 
 .payment-methods {
   margin-top: 55px;
+}
+
+.payment-method-box label {
+  margin-top: 20px;
 }
 
 .credit-card {
@@ -498,12 +539,7 @@ button:hover {
     768px - Activity section styles
   ==================================== */
 
-  .activities {
-    position: relative;
-    padding: 10px;
-  }
-
-  .activity-labels {
+  .activities-box {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -531,7 +567,7 @@ button:hover {
     margin-bottom: 0;
   }
 
-  .activity-cost {
+  .activities-cost {
     position: absolute;
     font-weight: bolder;;
     right: 15px;
@@ -572,7 +608,7 @@ button:hover {
   .expiration-box {
     position: absolute;
     right: 10px;
-    top: 64px;
+    top: 57px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;

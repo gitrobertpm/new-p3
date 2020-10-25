@@ -40,29 +40,26 @@ jobRoleMenu.addEventListener('change', e => {
 const designMenu = document.querySelector('#design');
 const colorMenu = document.querySelector('#color');
 
-// Create and display temporary placeholder option for color menu
-const placeholderOption = `<option selected hidden>Select a design theme above</option>`;
-colorMenu.insertAdjacentHTML('afterbegin', placeholderOption);
+// Disable color menu
 colorMenu.disabled = true;
 
+// Helper function for updating color options
+const updateColors = (theme) => [...colorMenu.children]
+      .forEach(option => (option.getAttribute('data-theme') === theme) ? 
+      option.hidden = false : 
+      option.hidden = true);
 
-// Helper function for hiding all color options
-const hideColors = () => [...colorMenu.children].forEach(option => option.hidden = true);
-
-// Helper function for deselecting all color options
-const deSelectColors = () => [...colorMenu.children].forEach(option => option.removeAttribute('selected'));
+// Helper function for updating selected color options
+const updateSelectedColors = (theme) => [...colorMenu.children]
+      .forEach(option => (option.getAttribute('data-theme') === theme) ? 
+      option.setAttribute('selected', true) : 
+      option.removeAttribute('selected'));
 
 // Display/hide color options as needed
 designMenu.addEventListener('change', e => {
   colorMenu.disabled = false;
-  hideColors();
-  deSelectColors();
-  const thisVal = e.target.value;
-  const firstColor = document.querySelectorAll(`#color option[data-theme="${thisVal}"]`)[0];
-  [...colorMenu.children].forEach(color => {  
-    if (thisVal === color.getAttribute('data-theme')) color.hidden = false;
-    firstColor.setAttribute('selected', true);
-  });
+  updateColors(e.target.value);
+  updateSelectedColors(e.target.value);
 });
 
 
@@ -71,7 +68,7 @@ designMenu.addEventListener('change', e => {
  */
 const activitySection = document.querySelector('#activities');
 const activities = document.querySelectorAll('.activities input');
-const activityCost = document.querySelector('#activity-cost');
+const activitiesCost = document.querySelector('#activities-cost');
 
 let total = 0;
 
@@ -86,7 +83,7 @@ activitySection.addEventListener('change', e => {
 
   // Update total cost
   clicked.checked ? total += currentCost : total -= currentCost;
-  activityCost.innerHTML = `Total: $${total}`;
+  activitiesCost.innerHTML = `Total: $${total}`;
 
   // Dat and time of clicked activity
   const dayAndTime = clicked.getAttribute('data-day-and-time');
@@ -124,9 +121,8 @@ bitcoin.style.opacity = 0;
 // Select credit card by default
 paymentMethod.children[1].setAttribute('selected', true);
 
-
 // Add fade in/out effect to payment sections
-const faeOut = (el) => {
+const fadeOut = (el) => {
   el.style.opacity = 0;
   setTimeout(e => { el.style.display = 'none' }, 350);
 }
@@ -138,26 +134,14 @@ const fadeIn = (el) => {
 
 // Display/hide payment sections as needed
 paymentMethod.addEventListener('change', e => {
-  faeOut(creditCard);
-  faeOut(paypal);
-  faeOut(bitcoin);
-
-  if (e.target.value === 'credit-card') fadeIn(creditCard);
-  if (e.target.value === 'paypal') fadeIn(paypal);
-  if (e.target.value === 'bitcoin') fadeIn(bitcoin);
+  [creditCard, paypal, bitcoin].forEach(el => (e.target.value !== el.id) ? fadeOut(el) : fadeIn(el));
 })
-
 
 
 /**
  * Accessibility
  */
 const hints = document.querySelectorAll('.hint');
-
-// Hide all hints initially except first
-[...hints].forEach((hint, i) => {
-  if (i > 0) hint.style.display = 'none';
-});
 
 // Add tab index focus indicator to activity labels
 [...activities].forEach((activity) => {
@@ -172,20 +156,17 @@ const hints = document.querySelectorAll('.hint');
 });
 
 // Accessibility related form input error validation 
-const validationPass = (el, elTitle, elHint, borderColor = 'transparent') => {
-  el.style.borderColor = borderColor;
-  elTitle.style.color = "black";
-  elTitle.classList.add('valid');
-  elTitle.classList.remove('not-valid');
-  elHint.style.display= 'none';
+const validationPass = (el) => {
+  el.parentElement.classList.add('valid');
+  el.parentElement.classList.remove('not-valid');
+  el.parentElement.lastElementChild.style.display= 'none';
 }
 
-const validationFail = (el, elTitle, elHint) => {
-  el.style.borderColor = 'red';
-  elTitle.style.color = "red";
-  elTitle.classList.remove('valid');
-  elTitle.classList.add('not-valid');
-  elHint.style.display = 'block';
+const validationFail = (el) => {
+  console.log(el.parentElement.lastElementChild);
+  el.parentElement.classList.remove('valid');
+  el.parentElement.classList.add('not-valid');
+  el.parentElement.lastElementChild.style.display = 'block';
 }
 
 
@@ -194,23 +175,11 @@ const validationFail = (el, elTitle, elHint) => {
  * Validation
  */
 const name = document.querySelector('#name');
-const nameLabel = document.querySelector('label[for="name"]');
-const nameHint = document.querySelector('#name-hint');
 const email = document.querySelector('#email');
-const emailLabel = document.querySelector('label[for="email"]');
-const emailHint = document.querySelector('#email-hint');
-const activityLabels = document.querySelector('#activity-labels');
-const activityHint = document.querySelector('#activity-hint');
-const activityLegend = document.querySelector('#activities legend')
+const activitiesBox = document.querySelector('#activities-box');
 const ccNum = document.querySelector('#cc-num');
-const ccLabel = document.querySelector('label[for="cc-num"]');
-const ccHint = document.querySelector('#cc-hint');
 const zip = document.querySelector('#zip');
-const zipLabel = document.querySelector('label[for="zip"]');
-const zipHint = document.querySelector('#zip-hint');
 const cvv = document.querySelector('#cvv');
-const cvvLabel = document.querySelector('label[for="cvv"]');
-const cvvHint = document.querySelector('#cvv-hint');
 
 
 // Name validation and real time test
@@ -218,8 +187,8 @@ const validName = () => {
   const valid = name.value.length > 0;
 
   (valid) ? 
-  validationPass(name, nameLabel, nameHint, 'rgba(36, 28, 21, 0.3)') : 
-  validationFail(name, nameLabel, nameHint);
+  validationPass(name) : 
+  validationFail(name);
 
   return valid;
 }
@@ -239,8 +208,8 @@ const validMail = () => {
                 val.indexOf('@') + 1 < val.lastIndexOf('.');
 
   (valid) ? 
-  validationPass(email, emailLabel, emailHint, 'rgba(36, 28, 21, 0.3)') : 
-  validationFail(email, emailLabel, emailHint);
+  validationPass(email) : 
+  validationFail(email);
 
   return valid;
 }
@@ -255,13 +224,13 @@ const validActivity = () => {
   const valid = total > 0;
 
   (valid) ? 
-  validationPass(activityLabels, activityLegend, activityHint) : 
-  validationFail(activityLabels, activityLegend, activityHint);
+  validationPass(activitiesBox) : 
+  validationFail(activitiesBox);
   
   return valid;
 }
 
-activityLabels.addEventListener('change', e => {
+activitySection.addEventListener('change', e => {
   setTimeout(validActivity, 50);
 })
 
@@ -271,11 +240,11 @@ const validCC = () => {
   const val = ccNum.value;
   const valid = val.length > 12 &&
                 val.length < 17 &&
-                !isNaN(val); console.log(val.length);
+                !isNaN(val);
 
   (valid) ? 
-  validationPass(ccNum, ccLabel, ccHint, 'rgba(36, 28, 21, 0.3)') : 
-  validationFail(ccNum, ccLabel, ccHint);
+  validationPass(ccNum) : 
+  validationFail(ccNum);
 
   return valid;
 }
@@ -292,8 +261,8 @@ const validZip = () => {
                 !isNaN(val);
 
   (valid) ? 
-  validationPass(zip, zipLabel, zipHint, 'rgba(36, 28, 21, 0.3)') : 
-  validationFail(zip, zipLabel, zipHint);
+  validationPass(zip) : 
+  validationFail(zip);
 
   return valid;
 }
@@ -310,8 +279,8 @@ function validCVV() {
                 !isNaN(val);
 
   (valid) ? 
-  validationPass(cvv, cvvLabel, cvvHint, 'rgba(36, 28, 21, 0.3)') : 
-  validationFail(cvv, cvvLabel, cvvHint);
+  validationPass(cvv) : 
+  validationFail(cvv);
 
   return valid;
 }
