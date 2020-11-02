@@ -83,7 +83,6 @@ button {
 }
 
 legend {
-  /* position: relative; */
   font-size: 1.5em;
   font-weight: bold;
   color: rgb(0, 0, 0);
@@ -97,7 +96,6 @@ legend {
 }
 
 label {
-  /* position: relative; */
   display: block;
   color: rgb(0, 0, 0);
   margin-top: 27px;

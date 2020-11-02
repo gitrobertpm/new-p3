@@ -44,7 +44,7 @@ const colorMenu = document.querySelector('#color');
 colorMenu.disabled = true;
 
 // Helper function for updating color options
-const updateColors = (theme) => [...colorMenu.children]
+const updateColors = theme => [...colorMenu.children]
       .forEach(option => (option.getAttribute('data-theme') === theme) ? 
       option.hidden = false : 
       option.hidden = true);
@@ -122,12 +122,12 @@ bitcoin.style.opacity = 0;
 paymentMethod.children[1].setAttribute('selected', true);
 
 // Add fade in/out effect to payment sections
-const fadeOut = (el) => {
+const fadeOut = el => {
   el.style.opacity = 0;
   setTimeout(e => { el.style.display = 'none' }, 350);
 }
 
-const fadeIn = (el) => {
+const fadeIn = el => {
   setTimeout(e => { el.style.display = 'block' }, 350);
   setTimeout(e => { el.style.opacity = 1 }, 400);
 }
@@ -144,7 +144,7 @@ paymentMethod.addEventListener('change', e => {
 const hints = document.querySelectorAll('.hint');
 
 // Add tab index focus indicator to activity labels
-[...activities].forEach((activity) => {
+[...activities].forEach(activity => {
   activity.addEventListener('focus', e => {
     activity.parentElement.classList.add('focus');
   })
@@ -155,20 +155,19 @@ const hints = document.querySelectorAll('.hint');
   })
 });
 
-// Accessibility related form input error validation 
-const validationPass = (el) => {
+// Accessibility related form input error validation indicators
+const validationPass = el => {
   el.parentElement.classList.add('valid');
   el.parentElement.classList.remove('not-valid');
-  el.parentElement.lastElementChild.style.display= 'none';
+  el.parentElement.lastElementChild.style.display = 'none';
 }
 
-const validationFail = (el) => {
+const validationFail = el => {
   console.log(el.parentElement.lastElementChild);
   el.parentElement.classList.remove('valid');
   el.parentElement.classList.add('not-valid');
   el.parentElement.lastElementChild.style.display = 'block';
 }
-
 
 
 /**
@@ -181,122 +180,34 @@ const ccNum = document.querySelector('#cc-num');
 const zip = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
 
-
-// Name validation and real time test
-const validName = () => {
-  const valid = name.value.length > 0;
-
-  (valid) ? 
-  validationPass(name) : 
-  validationFail(name);
-
+// Helper function for validating form fields or sections
+const validator = (el, test) => {
+  const valid = test;
+  (valid) ? validationPass(el) : validationFail(el);
   return valid;
 }
 
-name.addEventListener('keyup', e => {
-  validName();
-})
-
-
-// Mail validation and real time test
-const validMail = () => {
-  const val = email.value;
-  const valid = val.length > 5 &&
-                val.includes('@') &&
-                val.includes('.') &&
-                val.indexOf('@') > 0 &&
-                val.indexOf('@') + 1 < val.lastIndexOf('.');
-
-  (valid) ? 
-  validationPass(email) : 
-  validationFail(email);
-
-  return valid;
-}
-
-email.addEventListener('keyup', e => {
-  validMail();
-})
-
-
-// Activity validation and real time test
-const validActivity = () => {
-  const valid = total > 0;
-
-  (valid) ? 
-  validationPass(activitiesBox) : 
-  validationFail(activitiesBox);
-  
-  return valid;
-}
-
-activitySection.addEventListener('change', e => {
-  setTimeout(validActivity, 50);
-})
-
-
-// Credit card number validation and real time test
-const validCC = () => {
-  const val = ccNum.value;
-  const valid = val.length > 12 &&
-                val.length < 17 &&
-                !isNaN(val);
-
-  (valid) ? 
-  validationPass(ccNum) : 
-  validationFail(ccNum);
-
-  return valid;
-}
-
-ccNum.addEventListener('keyup', e => {
-  validCC();
-})
-
-
-// Zip validation and real time test
-const validZip = () => {
-  const val = zip.value;
-  const valid = val.length === 5 &&
-                !isNaN(val);
-
-  (valid) ? 
-  validationPass(zip) : 
-  validationFail(zip);
-
-  return valid;
-}
-
-zip.addEventListener('keyup', e => {
-  validZip();
-})
-
-
-// CVV validation and real time test
-function validCVV() {
-  const val = cvv.value;
-  const valid = val.length === 3 &&
-                !isNaN(val);
-
-  (valid) ? 
-  validationPass(cvv) : 
-  validationFail(cvv);
-
-  return valid;
-}
-
-cvv.addEventListener('keyup', e => {
-  validCVV();
-})
+// Real time validation listeners
+name.addEventListener('keyup', e => validator(name, /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name.value)));
+email.addEventListener('keyup', e =>  validator(email, /^[^@]+@[^@.]+\.[a-z]+$/i.test(email.value)));
+activitySection.addEventListener('change', e => validator(activitiesBox, total > 0));
+ccNum.addEventListener('keyup', e => validator(ccNum, /^\d{13,16}$/.test(ccNum.value)));
+zip.addEventListener('keyup', e => validator(zip, /^\d{5}$/.test(zip.value)));
+cvv.addEventListener('keyup', e => validator(cvv, /^\d{3}$/.test(cvv.value)));
 
 
 // Form validation
 const validForm = () => {
-  const testArr = [validName(), validMail(), validActivity()];
+  const testArr = [
+    validator(name, /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name.value)), 
+    validator(email, /^[^@]+@[^@.]+\.[a-z]+$/i.test(email.value)), 
+    validator(activitiesBox, total > 0)
+  ];
+
   if (paymentMethod.value === 'credit-card') {
-    testArr.push(validCC());
-    testArr.push(validZip());
-    testArr.push(validCVV());
+    testArr.push(validator(ccNum, /^\d{13,16}$/.test(ccNum.value)));
+    testArr.push(validator(zip, /^\d{5}$/.test(zip.value)));
+    testArr.push(validator(cvv, /^\d{3}$/.test(cvv.value)));
   }
   const notValidForm = testArr.some(val => !val);
   return !notValidForm;
