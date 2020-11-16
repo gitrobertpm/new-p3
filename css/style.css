@@ -136,6 +136,7 @@ input:focus {
 input:-webkit-autofill {
   border: 1px solid rgba(36, 28, 21, 0.2);
   -webkit-box-shadow: 0 0 0px 1000px rgb(255, 253, 249) inset;
+  box-shadow: 0 0 0px 1000px rgb(255, 253, 249) inset;
 }
 
 input[type="checkbox"],
