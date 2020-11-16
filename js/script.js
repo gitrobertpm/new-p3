@@ -79,7 +79,7 @@ activitySection.addEventListener('change', e => {
   const clicked = e.target;
 
   // Cost of clicked input
-  const currentCost = parseInt(clicked.getAttribute('data-cost'));
+  const currentCost = +clicked.getAttribute('data-cost');
 
   // Update total cost
   clicked.checked ? total += currentCost : total -= currentCost;
@@ -135,24 +135,17 @@ const fadeIn = el => {
 // Display/hide payment sections as needed
 paymentMethod.addEventListener('change', e => {
   [creditCard, paypal, bitcoin].forEach(el => (e.target.value !== el.id) ? fadeOut(el) : fadeIn(el));
-})
+});
 
 
 /**
  * Accessibility
  */
-const hints = document.querySelectorAll('.hint');
 
-// Add tab index focus indicator to activity labels
+// Add focus indicator to activity labels
 [...activities].forEach(activity => {
-  activity.addEventListener('focus', e => {
-    activity.parentElement.classList.add('focus');
-  })
-
-  activity.addEventListener('blur', e => {
-    const active = document.querySelector('.focus');
-    if (active) active.classList.remove('focus');
-  })
+  activity.addEventListener('focus', e => activity.parentElement.classList.add('focus'));
+  activity.addEventListener('blur', e => activity.parentElement.classList.remove('focus'));
 });
 
 // Accessibility related form input error validation indicators
@@ -163,7 +156,6 @@ const validationPass = el => {
 }
 
 const validationFail = el => {
-  console.log(el.parentElement.lastElementChild);
   el.parentElement.classList.remove('valid');
   el.parentElement.classList.add('not-valid');
   el.parentElement.lastElementChild.style.display = 'block';
